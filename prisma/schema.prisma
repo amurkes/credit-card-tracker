@@ -1,0 +1,79 @@
+generator client {
+  provider = "prisma-client-js"
+}
+
+datasource db {
+  provider = "sqlite"
+  url      = env("DATABASE_URL")
+}
+
+model User {
+  id        String   @id @default(cuid())
+  email     String   @unique
+  name      String?
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+  cards     Card[]
+  plaidItems PlaidItem[]
+}
+
+model PlaidItem {
+  id             String   @id @default(cuid())
+  userId         String
+  user           User     @relation(fields: [userId], references: [id])
+  
+  institutionId   String  // Plaid institution ID
+  institutionName String  // Bank name from Plaid
+  accessToken    String  // Plaid access token (encrypt in production!)
+  itemId         String  // Plaid item ID
+  
+  createdAt      DateTime @default(now())
+  updatedAt      DateTime @updatedAt
+  
+  cards          Card[]
+}
+
+model Card {
+  id             String      @id @default(cuid())
+  userId         String
+  user           User        @relation(fields: [userId], references: [id])
+  
+  name           String
+  issuer         String
+  last4          String?
+  
+  bonusAmount    Int
+  bonusType      String
+  spendingRequired Float
+  deadline       DateTime
+  
+  currentSpent   Float       @default(0)
+  bonusEarned    Boolean     @default(false)
+  
+  // Plaid integration
+  plaidItemId    String?
+  plaidItem      PlaidItem?  @relation(fields: [plaidItemId], references: [id])
+  plaidAccountId String?     // Plaid account ID for this card
+  
+  openedDate     DateTime    @default(now())
+  createdAt      DateTime    @default(now())
+  updatedAt      DateTime    @updatedAt
+  
+  transactions   Transaction[]
+}
+
+model Transaction {
+  id              String   @id @default(cuid())
+  cardId          String
+  card            Card     @relation(fields: [cardId], references: [id])
+  
+  amount          Float
+  merchantName    String
+  category        String?
+  transactionDate DateTime
+  pending         Boolean  @default(false)
+  
+  description     String?
+  createdAt       DateTime @default(now())
+  updatedAt       DateTime @updatedAt
+}

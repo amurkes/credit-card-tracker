@@ -1,0 +1,59 @@
+{
+  "users": [
+    {
+      "id": "cmlcv7r900000us5u16vxk4uf",
+      "email": "temp@example.com",
+      "name": "Temp User",
+      "createdAt": 1770502063284,
+      "updatedAt": 1770502063284
+    }
+  ],
+  "cards": [
+    {
+      "id": "cmlcv7r9o0002us5ux960dkou",
+      "userId": "cmlcv7r900000us5u16vxk4uf",
+      "name": "United Gateway",
+      "issuer": "Chase",
+      "last4": "4567",
+      "bonusAmount": 100000,
+      "bonusType": "miles",
+      "spendingRequired": 4000,
+      "deadline": 1776211200000,
+      "currentSpent": 300,
+      "bonusEarned": 0,
+      "openedDate": 1770502063308,
+      "createdAt": 1770502063308,
+      "updatedAt": 1770502109123
+    },
+    {
+      "id": "cmlcvarwe0007us5uhc00m768",
+      "userId": "cmlcv7r900000us5u16vxk4uf",
+      "name": "Hawaiian",
+      "issuer": "Barclays",
+      "last4": "9876",
+      "bonusAmount": 50000,
+      "bonusType": "miles",
+      "spendingRequired": 3000,
+      "deadline": 1776643200000,
+      "currentSpent": 0,
+      "bonusEarned": 0,
+      "openedDate": 1770502204094,
+      "createdAt": 1770502204094,
+      "updatedAt": 1770502204094
+    }
+  ],
+  "transactions": [
+    {
+      "id": "cmlcv8qls0004us5ubnju8u5f",
+      "cardId": "cmlcv7r9o0002us5ux960dkou",
+      "amount": 300,
+      "merchantName": "Test",
+      "category": "Shopping",
+      "transactionDate": 1770422400000,
+      "pending": 0,
+      "description": null,
+      "createdAt": 1770502109104,
+      "updatedAt": 1770502109104
+    }
+  ]
+}
