@@ -77,6 +77,7 @@ export default function Home() {
   const [linkSuccess, setLinkSuccess] = useState(false);
   const [showExistingLogins, setShowExistingLogins] = useState(false);
   const [existingLogins, setExistingLogins] = useState<ExistingLogin[]>([]);
+  const [submitting, setSubmitting] = useState(false);
   const [formData, setFormData] = useState({
     name: '',
     issuer: '',
@@ -121,6 +122,7 @@ export default function Home() {
 
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
+    setSubmitting(true);
 
     const response = await fetch('/api/cards', {
       method: 'POST',
@@ -139,6 +141,7 @@ export default function Home() {
       const errorData = await response.json();
       console.error('Error creating card:', errorData);
     }
+    setSubmitting(false);
   };
 
   // Plaid linking handlers
@@ -582,9 +585,17 @@ export default function Home() {
                   <div className="flex items-end">
                     <button
                       type="submit"
-                      className="w-full bg-gradient-to-r from-orange-500 to-amber-500 text-white px-6 py-3 rounded-lg font-semibold hover:from-orange-600 hover:to-amber-600 transition-all shadow-lg"
+                      disabled={submitting}
+                      className="w-full bg-gradient-to-r from-orange-500 to-amber-500 text-white px-6 py-3 rounded-lg font-semibold hover:from-orange-600 hover:to-amber-600 transition-all shadow-lg disabled:opacity-50 disabled:cursor-not-allowed flex items-center justify-center gap-2"
                     >
-                      Add Card
+                      {submitting ? (
+                        <>
+                          <Loader2 size={20} className="animate-spin" />
+                          Adding...
+                        </>
+                      ) : (
+                        'Add Card'
+                      )}
                     </button>
                   </div>
                 </div>

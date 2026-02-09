@@ -6,7 +6,12 @@
     "dev": "next dev --turbopack",
     "build": "next build",
     "start": "next start",
-    "lint": "next lint"
+    "lint": "next lint",
+    "notify": "node scripts/notify.js",
+    "notify:input": "node scripts/notify.js '[Kilo] Input Needed'",
+    "notify:done": "node scripts/notify.js '[Kilo] Task Complete'",
+    "dev:notify": "npm run notify:done && npm run dev",
+    "build:notify": "npm run build && npm run notify:done"
   },
   "dependencies": {
     "@prisma/adapter-pg": "^7.3.0",

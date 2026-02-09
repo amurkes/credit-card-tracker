@@ -1,5 +1,6 @@
 import { NextRequest, NextResponse } from 'next/server';
 import prisma from '@/lib/prisma';
+import { getDefaultUser } from '@/lib/users';
 
 interface CardData {
   id?: string;
@@ -54,15 +55,7 @@ export async function POST(request: NextRequest) {
     const jsonData = await request.json();
     const data = jsonData as CardData;
     
-    // Create a temporary user for now (we'll add auth later)
-    const user = await prisma.user.upsert({
-      where: { email: 'temp@example.com' },
-      update: {},
-      create: {
-        email: 'temp@example.com',
-        name: 'Temp User'
-      }
-    });
+    const user = await getDefaultUser();
     
     const card = await prisma.card.create({
       data: {

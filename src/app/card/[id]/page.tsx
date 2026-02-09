@@ -2,7 +2,7 @@
 
 import { useState, useEffect } from 'react';
 import { useParams, useRouter } from 'next/navigation';
-import { ArrowLeft, Plus, Trash2, TrendingUp, Calendar, DollarSign, RefreshCw } from 'lucide-react';
+import { ArrowLeft, Plus, Trash2, TrendingUp, Calendar, DollarSign, RefreshCw, Loader2 } from 'lucide-react';
 
 // Declare alert for TypeScript
 declare const alert: (message: string) => void;

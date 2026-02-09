@@ -1,6 +1,7 @@
 import { NextResponse } from 'next/server';
-import { PrismaClient } from '@prisma/client';
 import { Configuration, PlaidApi, PlaidEnvironments } from 'plaid';
+import prisma from '@/lib/prisma';
+import { getDefaultUser } from '@/lib/users';
 
 const configuration = new Configuration({
   basePath: PlaidEnvironments.sandbox as string,
@@ -13,8 +14,6 @@ const configuration = new Configuration({
 });
 
 const plaidClient = new PlaidApi(configuration);
-
-const prisma = new PrismaClient();
 
 interface AccountSelection {
   plaidAccountId: string;
@@ -46,18 +45,7 @@ export async function POST(request: Request) {
     }
 
     // Get or create a default user
-    let defaultUser = await prisma.user.findFirst({
-      where: { email: 'demo@creditcardtracker.com' }
-    });
-
-    if (!defaultUser) {
-      defaultUser = await prisma.user.create({
-        data: {
-          email: 'demo@creditcardtracker.com',
-          name: 'Demo User',
-        }
-      });
-    }
+    const defaultUser = await getDefaultUser();
 
     const createdCards = [];
     const linkedCards = [];

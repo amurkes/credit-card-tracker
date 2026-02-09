@@ -1,6 +1,7 @@
 import { NextResponse } from 'next/server';
 import { Configuration, PlaidApi, PlaidEnvironments, CountryCode } from 'plaid';
 import prisma from '@/lib/prisma';
+import { getDefaultUser } from '@/lib/users';
 
 const configuration = new Configuration({
   basePath: PlaidEnvironments.sandbox as string,
@@ -73,18 +74,7 @@ export async function POST(request: Request) {
     }));
     
     // Get or create default user for now
-    let defaultUser = await prisma.user.findFirst({
-      where: { email: 'demo@creditcardtracker.com' }
-    });
-    
-    if (!defaultUser) {
-      defaultUser = await prisma.user.create({
-        data: {
-          email: 'demo@creditcardtracker.com',
-          name: 'Demo User',
-        }
-      });
-    }
+    const defaultUser = await getDefaultUser();
 
     // Check if we already have items for this institution for this user
     const existingItems = await prisma.plaidItem.findMany({
